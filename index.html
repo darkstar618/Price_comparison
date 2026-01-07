@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Comparison Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1 { text-align: center; }
+        form { background: white; padding: 30px; border-radius: 10px; }
+        label { display: block; margin-top: 15px; }
+        input, button { width: 100%; padding: 10px; margin-top: 8px; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+        pre { background: #111; color: #0f0; padding: 15px; margin-top: 20px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔍 Price Comparison</h1>
+
+    <form id="searchForm">
+        <label>Product</label>
+        <input id="query" required>
+
+        <label>Pages</label>
+        <input id="pages" type="number" value="1" min="1" max="5">
+
+        <label><input type="checkbox" value="amazon"> Amazon</label>
+        <label><input type="checkbox" value="walmart"> Walmart</label>
+        <label><input type="checkbox" value="compare"> Compare Both</label>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <pre id="output"></pre>
+</div>
+
+<script>
+document.getElementById("searchForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const query = document.getElementById("query").value;
+    const pages = document.getElementById("pages").value;
+    const sites = [...document.querySelectorAll("input[type=checkbox]:checked")]
+        .map(cb => cb.value).join(",");
+
+    const res = await fetch(`/api/search?query=${query}&pages=${pages}&sites=${sites}`);
+    const data = await res.json();
+
+    document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+};
+</script>
+</body>
+</html>
