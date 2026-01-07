@@ -7,10 +7,30 @@ import json
 from flask import Flask, request, render_template
 
 # Correct single app creation with template path for Vercel
-app = Flask(__name__, template_folder='../templates')
+#app = Flask(__name__, template_folder='../templates')
 
 # Optional: helpful for debugging paths locally vs Vercel
 # print("Template folder:", app.template_folder)
+
+
+
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__, template_folder="../templates")
+
+@app.route("/")
+def home():
+    return "Vercel routing works"
+
+# DO NOT add app.run()
+
+
+
+
+
+
+
 
 
 
